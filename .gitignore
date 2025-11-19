@@ -1,0 +1,52 @@
+# Node modules (backend + frontend)
+node_modules/
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Build outputs
+dist/
+build/
+.temp/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories
+.vscode/
+.idea/
+
+# Caches
+.vite/
+.next/
+.svelte-kit/
+.nuxt/
+.remix/
+
+# TypeScript
+*.tsbuildinfo
+
+# PM2 logs
+.pmx/
+pm2.log
+
+# mongo dumps
+dump/
+
+# Uploads (if stored locally)
+uploads/
