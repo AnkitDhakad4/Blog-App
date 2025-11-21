@@ -24,7 +24,8 @@ function Login() {
         navigate("/"); //link par toh click karna padta hai navigate se programcally bhej sakte hai
       }
     } catch (error) {
-      setError(error.message);
+      console.log(error.response.data)
+      setError(error.response.data);
     }
   };
 
@@ -50,7 +51,7 @@ function Login() {
             Sign Up
           </Link>
         </p>
-        {error && <p className="text-red-500 text-center ">{error}</p>}
+        {error && <p className="text-red-500 text-center ">{error.message}</p>}
 
         <form onSubmit={handleSubmit(login)} className="mt-8">
           <div className="space-y-5">

@@ -48,7 +48,7 @@ const login=async function(data){
     try {
         const {username,password}=data
         
-        console.log("Username ",username,"\nPassword",password)
+        
         const response=await axios.post(`${import.meta.env.VITE_API_URL}/user/login`,{username,password},{withCredentials:true})
     
         if(!response)
@@ -60,7 +60,7 @@ const login=async function(data){
         return response
         
     } catch (error) {
-        throw new Error("Error in login",error)
+        throw error
     }
 }
 

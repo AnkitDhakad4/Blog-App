@@ -39,8 +39,8 @@ function Signup() {
       // navigate("/");
     } catch (error) {
       
-      console.log(error);
-      // setError(error.response.data.message);
+      console.log(error.response.data);
+      setError(error.response.data);
       // throw new Error("THe server is not reached while registering",error)
     } finally {
       setloading(false);
@@ -72,7 +72,7 @@ function Signup() {
           </Link>
         </p>
 
-        {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
+        {error && <p className="text-red-600 mt-8 text-center">{error.message}</p>}
 
         <form onSubmit={handleSubmit(signup)} className="space-y-5 mt-8">
           {/* Name */}

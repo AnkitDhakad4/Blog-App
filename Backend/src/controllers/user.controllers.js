@@ -9,6 +9,9 @@ import customParseFormat from "dayjs/plugin/customParseFormat.js";
 
 dayjs.extend(customParseFormat);
 
+const returnError=(res,error)=>{
+    return res.status(error.statusCode).json({status:error.statusCode,message:error.message});
+}
 
 const generateAccessandRefreshToken=async function (userId) {
 try {
@@ -56,7 +59,7 @@ const registerUser=async function(req,res){
         )
         if(existed)
         {
-            throw new Error('This Username or Email is already taken try another',400)
+            throw new apiError('This Username or Email is already taken try another',400)
         }
     
         // console.log("On upload on cloudinary")
@@ -96,10 +99,7 @@ const registerUser=async function(req,res){
     
     } catch (error) {
 
-        
-        console.log("Error while registering the user",error)
-        throw new apiError("Error while registering the user",400,error)
-        
+       return returnError(res,error);
         
     }
 
@@ -155,7 +155,8 @@ const login=async function (req,res) {
         
     
     } catch (error) {
-        console.log("Error while login:- ",error)
+        // console.log("Error while login:- ",error)
+        return returnError(res,error)
         // throw new apiError("Error while login",400,error)
     }    
 }
