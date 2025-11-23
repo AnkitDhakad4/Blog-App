@@ -3,6 +3,10 @@ import apiError from '../utils/apiError.js';
 import { User } from '../models/user.models.js';
 
 
+const returnError=(res,error)=>{
+    return res.status(error.statusCode).json({status:error.statusCode,message:error.message});
+}
+
 const verifyjwt=async function(req,res,next){
     try {
         const accessToken=req.cookies.accessToken;
@@ -26,7 +30,7 @@ const verifyjwt=async function(req,res,next){
     
         next();
     } catch (error) {
-        throw new apiError('Please Login first',401,error)
+        return returnError(res,error)
     }
 
 }

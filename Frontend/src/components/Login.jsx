@@ -12,20 +12,24 @@ function Login() {
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
+  const [loading,setloading]=useState(false)
 
   const login = async (data) => {
     //it will be our method which we call when we hit login btn so it will take time
     setError(""); //we store each error so we just cleared here
     try {
       //ye uper vale async ke karan try catch hai
+      setloading(true)
       const session = await signin(data);
       if (session) {
         dispatch(storelogin(session.data.data));
         navigate("/"); //link par toh click karna padta hai navigate se programcally bhej sakte hai
       }
     } catch (error) {
-      console.log(error.response.data)
+      console.log(error.response.data);
       setError(error.response.data);
+    }finally{
+      setloading(false)
     }
   };
 
@@ -58,6 +62,7 @@ function Login() {
             <Input
               label="Username"
               type="text"
+              className=" focus:ring-red-400"
               palceholder="Enter your Email" //...props se chla jayega
               {...register("username", {
                 //ye email ek key hai
@@ -73,13 +78,25 @@ function Login() {
             <Input
               label="password"
               palceholder="Enter your Password"
+              className=" focus:ring-red-400"
               type="password"
               {...register("password", {
                 required: true,
               })}
             />
-            <Button type="submit" className="w-full">
-              Sign in
+            <Button
+              className="w-full bg-black hover:bg-black/90 text-white font-bold py-2 px-4 rounded transition duration-200 flex items-center justify-center"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? (
+                <div className="flex items-center gap-2">
+                  <span className="loader w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                  Loging in...
+                </div>
+              ) : (
+                "Login"
+              )}
             </Button>
           </div>
         </form>

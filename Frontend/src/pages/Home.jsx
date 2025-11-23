@@ -1,24 +1,27 @@
 import React from 'react'
 import { useEffect,useState } from 'react'
 import { Container,PostCard } from '../components'
-
+import { useSelector } from 'react-redux'
 import { getAllPost } from '../OurBackend/dataBase.js' 
 
 function Home() {
     const [posts,setPosts]=useState([])
-    // console.log("posts printing from home", posts.documents)
+    const isloggedin=useSelector((state)=>state.auth.userData);
+    
     useEffect(()=>{
        async function fetchData() {
         try {
+            
             const data=await getAllPost();
             setPosts(data.data)
         }catch(err){
-            console.log("Error while getting the data",err)
+            // console.log("Error while getting the data",err)
+            setPosts([])
         }
        }
 
        fetchData();
-    },[])
+    },[isloggedin])
 
     if(posts.length===0)
     {
@@ -55,4 +58,4 @@ function Home() {
     }
 }
 
-export default Home
+export default Home 

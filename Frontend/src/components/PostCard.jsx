@@ -6,18 +6,21 @@ function PostCard({ post }) {
   
   return (
     <Link to={`/post/${_id}`}>
-      <div className='w-full bg-gray-100 rounded-xl p-4'> 
-        <div className='w-full mb-4'>
-          <img 
-            src={image} 
-            alt={title} 
-            className='rounded-xl h-48 w-full object-contain'
-          />
-        </div>
+  <div className='w-full bg-gray-100 rounded-xl p-4 h-62 flex flex-col'>
+    <div className='w-full h-40 mb-4'>
+      <img 
+        src={image} 
+        alt={title} 
+        className='rounded-xl w-full h-full object-cover'
+      />
+    </div>
 
-        <h2 className='font-bold text-red-800'>{title}</h2>
-      </div>
-    </Link>
+    <h2 className='font-bold text-red-800 h-12 overflow-hidden'>
+      {title}
+    </h2>
+  </div>
+</Link>
+
   )
 }
 

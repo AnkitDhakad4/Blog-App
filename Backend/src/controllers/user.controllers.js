@@ -81,6 +81,14 @@ const registerUser=async function(req,res){
     
 
         // console.log("created user is ",createdUser)
+        const {accessToken,refreshToken}=await generateAccessandRefreshToken(createdUser._id)
+
+        if(!refreshToken)
+        {
+            throw new apiError("Refresh token is not generated ",500)
+        }
+
+
         const findedUser=await User.findById(createdUser._id).select('-password -refreshToken')
 
         if(!findedUser)
@@ -93,12 +101,22 @@ const registerUser=async function(req,res){
         {
             throw new apiError("An error while registering the user ",500)
         }
+
+
+        const option={
+            httpOnly:true,
+            secure:process.env.NODE_ENV==='Production',
+            sameSite:process.env.NODE_ENV==='Production'?'none':'lax'
+        }
+    
     
         return res.status(200)
+        .cookie('accessToken',accessToken,option)
+        .cookie('refreshToken',refreshToken,option)
         .json(new apiResponse(200,"User is registered successfully ",findedUser))
     
     } catch (error) {
-
+        console.log(error)
        return returnError(res,error);
         
     }
@@ -163,58 +181,67 @@ const login=async function (req,res) {
 
 
 const refreshTokens=async function(req,res){
-    const user=req.userInfo
-    if(!user)
+    try {
+        const user=req.userInfo
+        if(!user)
+            {
+                throw new apiError
+                ('Please login first ',400)
+            }
+            // console.log(user)
+            const {accessToken,refreshToken}=await generateAccessandRefreshToken(user._id);
+            
+            console.log(accessToken,'\n')
+        console.log(refreshToken)
+        if(!accessToken)
         {
-            throw new apiError
-            ('Please login first ',400)
+            throw new apiError("Error while generating the accessToken ",500)
         }
-        // console.log(user)
-        const {accessToken,refreshToken}=await generateAccessandRefreshToken(user._id);
         
-        console.log(accessToken,'\n')
-    console.log(refreshToken)
-    if(!accessToken)
-    {
-        throw new apiError("Error while generating the accessToken ",500)
+        const loginUser=await User.findById(user._id).select('-password -refreshToken')
+        
+        const option={
+            httpOnly:true,
+            secure:process.env.NODE_ENV==="Production",
+            sameSite:process.env.NODE_ENV==="Production"?'none':'lax'
+        }
+        res.cookie('accessToken',accessToken,option)
+        .cookie('refreshToken',refreshToken,option)
+        .json(new apiResponse(200,'New tokens are generated',loginUser))
+    } catch (error) {
+        return returnError(res,error);
     }
-    
-    const loginUser=await User.findById(user._id).select('-password -refreshToken')
-    
-    const option={
-        httpOnly:true,
-        secure:process.env.NODE_ENV==="Production",
-        sameSite:process.env.NODE_ENV==="Production"?'none':'lax'
-    }
-    res.cookie('accessToken',accessToken,option)
-    .cookie('refreshToken',refreshToken,option)
-    .json(new apiResponse(200,'New tokens are generated',loginUser))
     
 }
 
 const logout=async function(req,res){
-    const user=req.userInfo;
-    if(!user)
-    {
-        throw new apiError("Please login first",400)
+    try {
+        const user=req.userInfo;
+        
+        if(!user)
+        {
+            throw new apiError("Please login first",400)
+        }
+    
+        const response=await User.findOneAndUpdate(user._id,{$unset:{refreshToken:1}})
+        
+        if(!response)
+        {
+            throw new apiError('The refreshToken is not vanished',400)
+        }
+    
+        const option={
+            httpOnly:true,
+            secure:process.env.NODE_ENV==="Production",
+            sameSite:process.env.NODE_ENV==="Production"?'none':'lax'
+        }
+    
+        res.clearCookie('accessToken',option)
+        .clearCookie('refreshToken',option)
+        .json(new apiResponse(200,'User is loggedOut Successfully'))
+    } catch (error) {
+        return returnError(res,error)
     }
-
-    const response=await User.findOneAndUpdate(user._id,{$unset:{refreshToken:1}})
-
-    if(!response)
-    {
-        throw new apiError('The refreshToken is not vanished',400)
-    }
-
-    const option={
-        httpOnly:true,
-        secure:process.env.NODE_ENV==="Production",
-        sameSite:process.env.NODE_ENV==="Production"?'none':'lax'
-    }
-
-    res.clearCookie('accessToken',option)
-    .clearCookie('refreshToken',option)
-    .json(new apiResponse(200,'User is loggedOut Successfully'))
 }
 
 

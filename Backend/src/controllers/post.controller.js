@@ -6,6 +6,11 @@ import {
 } from "../utils/cloudinary.js";
 import apiResponse from "../utils/apiResponse.js";
 
+const returnError=(res,error)=>{
+    return res.status(error.statusCode).json({status:error.statusCode,message:error.message});
+}
+
+
 const createPost = async function (req, res) {
   try {
     const user = req.userInfo;
@@ -57,8 +62,7 @@ const createPost = async function (req, res) {
       new apiResponse(200, "Post is created successfully", createdPost)
     );
   } catch (error) {
-    console.log(error);
-    throw new apiError("Error while creating a post", 400, error);
+    return returnError(res,error)
   }
 };
 
@@ -93,7 +97,7 @@ const getAllPost = async function (req, res) {
       new apiResponse(200, "All the post are fetched successfully", allPost)
     );
   } catch (error) {
-    throw new apiError("Error while gettin the Post data", 200);
+    return returnError(res,error)
   }
 };
 
@@ -126,7 +130,7 @@ const getPrivatePosts = async function (req, res) {
       new apiResponse(200, "Fetched all the privete post ", privatePost)
     );
   } catch (error) {
-    throw new apiError("Error while getting the post", 400, error);
+    return returnError(res,error)
   }
 };
 
@@ -194,7 +198,7 @@ const editPost = async function (req, res) {
       new apiResponse(200, "Post is updated successfully", updatedPost)
     );
   } catch (error) {
-    throw error;
+    return returnError(res,error)
   }
 };
 
@@ -233,7 +237,7 @@ const deletePost = async function (req, res) {
       })
     );
   } catch (error) {
-    throw new apiError("Error while deleting the Post ", 400, error);
+    return returnError(res,error)
   }
 };
 
@@ -255,9 +259,7 @@ const getPost = async function (req, res) {
       .status(200)
       .json(new apiResponse(200, "Post is fetched successfully", postData));
   } catch (error) {
-    console.log(error);
-    
-    throw new apiError("Unable to get the post",error);
+    return returnError(res,error)
   }
 };
 

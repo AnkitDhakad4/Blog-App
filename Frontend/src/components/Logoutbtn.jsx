@@ -13,6 +13,7 @@ function Logoutbtn() {
         logout().then((data)=>{
           console.log(data);
           dispatch(storeLogout());
+          
         }).catch((err)=>{
           console.log("Error while loggin out",err);
         })

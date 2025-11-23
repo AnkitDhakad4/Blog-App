@@ -30,16 +30,16 @@ function Signup() {
       // console.log(formData);
 
       const response = await logup(formData);
-      if (!response.ok) {
+      if (!response) {
         throw new Error("User is not been registered");
       }
 
-      console.log("response is ", response);
+      
       dispatch(storelogin(response.data.data));
-      // navigate("/");
+      navigate("/");
     } catch (error) {
       
-      console.log(error.response.data);
+      console.log(error);
       setError(error.response.data);
       // throw new Error("THe server is not reached while registering",error)
     } finally {

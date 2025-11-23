@@ -69,7 +69,7 @@ const logup=async function(data){
         // console.log("data is ",data)
         const {username,gender,dob,email,password,avatar,name}=data
         
-        // console.log(username,gender,dob,email,password,avatar,name)
+        
         const response=await axios.post(`${import.meta.env.VITE_API_URL}/user/register`,{username,gender,dob,email,password,avatar,name},{withCredentials:true,headers:{
             "Content-Type": "multipart/form-data"
         }})
@@ -77,7 +77,7 @@ const logup=async function(data){
         {
             throw new Error("The user is not registered")
         }
-    
+        
         return response
     } catch (error) {
         throw error
