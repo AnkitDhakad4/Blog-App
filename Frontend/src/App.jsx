@@ -25,7 +25,7 @@ function App() {
     <Header/>
     <Outlet/>
     {/* <h1 className='text-red-600 text-4xl'>Jai Shree Ram</h1> */}
-    <Footer/>
+    <Footer/> 
     </>
   )
 }
