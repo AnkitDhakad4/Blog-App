@@ -2,9 +2,9 @@ import React from 'react'
 import { useEffect,useState } from 'react'
 import { Container,PostCard } from '../components'
 import { useSelector } from 'react-redux'
-import { getAllPost } from '../OurBackend/dataBase.js' 
+import { getAllPost, getPrivatePosts } from '../OurBackend/dataBase.js' 
 
-function Home() {
+function Privateposts() {
     const [posts,setPosts]=useState([])
     const isloggedin=useSelector((state)=>state.auth.userData);
     
@@ -12,11 +12,10 @@ function Home() {
        async function fetchData() {
         try {
             
-            const data=await getAllPost();
-            // console.log("Data in Home ",data.data)
+            const data=await getPrivatePosts();
             setPosts(data.data)
         }catch(err){
-            console.log("Error while getting the data",err)
+            // console.log("Error while getting the data",err)
             setPosts([])
         }
        }
@@ -32,7 +31,7 @@ function Home() {
                     <div className='flex flex-wrap'>
                         <div className='p-2 w-full'>
                             <h1 className='text-2xl font-bold hover:text-gray-500'>
-                            Login to read Posts
+                            No Post is Private!!
                             </h1>
 
                         </div>
@@ -59,4 +58,4 @@ function Home() {
     }
 }
 
-export default Home 
+export default Privateposts 

@@ -71,7 +71,7 @@ const getAllPost = async function (req, res) {
   // console.log("User is", user);
   try {
     if (!user) {
-      throw new apiError("Please first login to see the post", 400);
+      throw new apiError("Please first login to see the post", 401);
     }
 
     const allPost = await Post.aggregate([
@@ -104,6 +104,7 @@ const getAllPost = async function (req, res) {
 const getPrivatePosts = async function (req, res) {
   try {
     const user = req.userInfo;
+    console.log(user)
 
     if (!user) {
       throw new apiError("Please first login to see the post", 400);
@@ -121,6 +122,7 @@ const getPrivatePosts = async function (req, res) {
         },
       },
     ]);
+    
 
     if (!privatePost) {
       throw new apiError("Error while getting the privatePost ", 500);
@@ -214,7 +216,7 @@ const deletePost = async function (req, res) {
     });
 
     if (!isAvailable) {
-      throw new apiError("Can not delete others post", 400);
+      throw new apiError("Can not delete other`s post", 400);
     }
 
     const imagePublicId = isAvailable.imagePublicId;

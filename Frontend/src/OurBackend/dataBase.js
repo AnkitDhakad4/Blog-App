@@ -107,4 +107,22 @@ const updatePost=async function(data){
 
 }
 
-export {getAllPost,getPost,deletePost,createPost,updatePost}
+const getPrivatePosts=async function(){
+    try {
+        const response=await axios.get(`${import.meta.env.VITE_API_URL}/post/getPrivatePosts`,{
+            withCredentials:true
+        })
+    
+        if(!response)
+        {
+            throw new Error('Error while getting private posts',error)
+        }
+    
+        return response.data;
+        
+    } catch (error) {
+        throw error
+    }
+}
+
+export {getAllPost,getPost,deletePost,createPost,updatePost,getPrivatePosts}

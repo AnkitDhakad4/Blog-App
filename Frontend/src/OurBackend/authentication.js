@@ -7,40 +7,37 @@ const axiosInstance=axios.create({
 })
 
 
-axiosInstance.interceptors.response.use(
-    (response)=>response,
-    async(error)=>{
-        const originalRequest=error.config
+// axiosInstance.interceptors.response.use(
+//   (response) => response,
+//   async (error) => {
+//     const originalRequest = error.config;
 
-        if(error.response?.status===401 && !originalRequest._retry)
-        {
-            originalRequest._retry=true;
+//     if (error.response?.status === 401 && !originalRequest._retry) {
+//       originalRequest._retry = true;
 
-            try{
-                await axios.get(`${import.meta.env.VITE_API_URL}/user/refreshTokens`,
-                    { withCredentials: true }
-                );
+//       try {
+//         // Try refreshing tokens
+//         const response=await axios.get(`${import.meta.env.VITE_API_URL}/user/refreshTokens`, {
+//           withCredentials: true,
+//         });
 
-                 return axiosInstance(originalRequest);
-            }
-            catch(refreshError){
+//         console.log("Response in interceptor is ",response)
+//         // Retry the original request with the new token
+//         return axiosInstance(originalRequest);
+//       } catch (refreshError) {
+//         console.log("Refresh token failed ❌", refreshError);
 
-                 console.log("Refresh token failed ❌", refreshError);
+//         // Invalidate Redux auth state
+//         store.dispatch(logout());
 
-        // Redirect user to login page if refresh failed
-                const navigate=useNavigate()
-                navigate('/')
-                return Promise.reject(refreshError);
+//         // Reject refresh error
+//         return Promise.reject("Ankit dhakad");
+//       }
+//     }
 
-            }
-
-        }
-
-          return Promise.reject(error);
-
-
-    }
-);
+//     return Promise.reject(error);
+//   }
+// )
 
 
 

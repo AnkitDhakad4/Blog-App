@@ -8,16 +8,19 @@ const returnError=(res,error)=>{
 }
 
 const verifyjwt=async function(req,res,next){
+    
+     
     try {
         const accessToken=req.cookies.accessToken;
         // console.log("In verifyjwt ",req.cookies);
         
-        
+
         if(!accessToken)
         {
             throw new apiError('Invalid accessToken ',400);
         }
-    
+        
+       
         const user=jwt.verify(accessToken,process.env.ACCESS_TOKEN)
         
         const loggedIn=await User.findById(user._id).select('-password -refreshToken')

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {Container, PostCard } from '../components'
-import service from '../Appwrite/Database'
 import { useSelector } from 'react-redux';
+import { getPrivatePosts } from '../OurBackend/dataBase';
 // import React from 'react';
 
 function Allposts() {
@@ -10,31 +10,38 @@ function Allposts() {
     const userData = rawUser?.userData || rawUser
     // console.log(userData)
     useEffect(()=>{
-        service.getPosts([]).then((data)=>{
-            if(data)
-            {
-                
-                setPost(data.documents)
-                // console.log("in allposts in pages ",data.documents)
+        async function getPrivate() {
+            try {
+                const res=await getPrivatePosts()
+                if(!res)
+                {
+                    console.log("Error while getting posts")
+                }
+                console.log("response in getPrivatePosts ",res.data)
+                setPost( res.data);
+            } catch (error) {
+                console.log(error)
             }
-        })
+        }
+
+        getPrivate()
+        
+        
     },[])
     // console.log("In allpost in container ",posts[0].user)
     
   return (
-    <div className='w-full py-8'>
-      <Container className='flex-flex-wrap'>
-        {
-            posts?.map((post)=>{
-            
-                    return(<div key={post.$id} className='p-2 w-1/4'>
-                    <PostCard post={post}/>
-                </div>)
-                
-            })
-        }
-        </Container>  
-    </div>
+     <div className='w-full py-8'>
+                    <Container>
+                        <div className='flex flex-wrap'>
+                            {posts.map((post)=>(
+                                <div className='p-2 w-1/4 ' key={post._id}>
+                                    {<PostCard post={post}/>}
+                                    </div>
+                            ))}
+                        </div>
+                    </Container>
+                </div>
   )
 }
 
