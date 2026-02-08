@@ -6,9 +6,12 @@ import {
 } from "../utils/cloudinary.js";
 import apiResponse from "../utils/apiResponse.js";
 
-const returnError=(res,error)=>{
-    return res.status(error.statusCode).json({status:error.statusCode,message:error.message});
-}
+const returnError = (res, statusCode = 500, message = "Internal Server Error") => {
+  return res.status(statusCode).json({
+    success: false,
+    message
+  });
+};
 
 
 const createPost = async function (req, res) {

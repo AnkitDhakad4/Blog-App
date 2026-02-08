@@ -9,9 +9,12 @@ import customParseFormat from "dayjs/plugin/customParseFormat.js";
 
 dayjs.extend(customParseFormat);
 
-const returnError=(res,error)=>{
-    return res.status(error.statusCode).json({status:error.statusCode,message:error.message});
-}
+const returnError = (res, statusCode = 500, message = "Internal Server Error") => {
+  return res.status(statusCode).json({
+    success: false,
+    message
+  });
+};
 
 const generateAccessandRefreshToken=async function (userId) {
 try {
