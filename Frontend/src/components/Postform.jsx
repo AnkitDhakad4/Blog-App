@@ -106,7 +106,7 @@ function Postform({ post }) {
             </label>
             <Input
               placeholder="Write your title..."
-              className="rounded-lg shadow-sm bg-[#2b2b2b] text-black border-gray-600"
+              className="rounded-lg shadow-sm bg-[#2b2b2b] text-black border-gray-600 focus:border-red-500"
               {...register("title", { required: true })}
             />
           </div>
@@ -117,12 +117,12 @@ function Postform({ post }) {
             </label>
             <Input
               placeholder="my-blog-slug"
-              className="rounded-lg shadow-sm bg-[#2b2b2b] text-black border-gray-600"
+              className="rounded-lg shadow-sm bg-[#2b2b2b] text-black border-gray-600 focus:border-red-500"
               {...register("slug", { required: true })}
             />
           </div>
 
-          <div className="p-4 bg-[#2a2a2a] border border-gray-700 rounded-xl shadow-sm">
+          <div className="p-4 bg-[#2a2a2a] border border-gray-700 rounded-xl shadow-sm focus:border-red-500">
             <RTE
               label="Content :"
               name="content"
@@ -135,7 +135,7 @@ function Postform({ post }) {
 
         {/* RIGHT PANEL */}
         <div className="w-full lg:w-1/3 space-y-6 text-black">
-          <div className="p-4 border border-gray-700 rounded-xl bg-[#2a2a2a] shadow-sm">
+          <div className="p-4 border border-gray-700 rounded-xl bg-[#2a2a2a] shadow-sm focus:border-red-500">
             <label className="block text-sm font-medium mb-2 text-gray-300">
               Featured Image :
             </label>

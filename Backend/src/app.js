@@ -16,7 +16,7 @@ app.use(cookieparser());
 
 // allow requests from the servers
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin:process.env.originLink,
     credentials:true
 }))
 
