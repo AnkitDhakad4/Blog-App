@@ -43,7 +43,7 @@ import postRouter from './routes/post.routes.js'
 app.use('/api/v1/post',postRouter)
 
 app.use('/',(req,res)=>{
-    return res.json({"Status":"okay","Message":"Everything is working"})
+    return res.json({active:true,message:"Chal rha hai yrr"})
 })
 
 

@@ -13,7 +13,7 @@ router.route('/getPrivatePosts').get(verifyjwt,getPrivatePosts)
 router.route('/deletePost').get(verifyjwt,deletePost)
 router.route('/getPost').get(getPost)
 
-app.use('/',(req,res)=>{
+router.route('/').get((req,res)=>{
     return res.json({"Status":"okay","Message":"Everything is working in Post"})
 })
 
