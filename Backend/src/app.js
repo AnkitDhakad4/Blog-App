@@ -42,6 +42,10 @@ app.use('/api/v1/user',userRouter)
 import postRouter from './routes/post.routes.js'
 app.use('/api/v1/post',postRouter)
 
+app.use('/',(req,res)=>{
+    return res.json({"Status":"okay","Message":"Everything is working"})
+})
+
 
 app.post('/',(req,res)=>{
     console.log(req.body)

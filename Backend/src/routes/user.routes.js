@@ -11,7 +11,9 @@ router.route('/register').post(upload.single('avatar'),rename,registerUser)
 router.route('/login').post(login)
 router.route('/refreshTokens').get(verifyjwt,refreshTokens)
 router.route('/logout').get(verifyjwt,logout)
-
+app.use('/',(req,res)=>{
+    return res.json({"Status":"okay","Message":"Everything is working in user"})
+})
 
 
 export default router
